@@ -1,0 +1,17 @@
+[project]
+name = "triton-tvm-ffi"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+dependencies = [
+    "apache-tvm-ffi",
+    "jinja2",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["triton_tvm_ffi"]
+package-dir = {"" = "python"}
