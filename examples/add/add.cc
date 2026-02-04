@@ -18,7 +18,8 @@ tvm::ffi::Tensor Add(tvm::ffi::Tensor x, tvm::ffi::Tensor y) {
   int64_t numel = otorch.numel();
   tvm::ffi::Tensor output = tvm::ffi::Tensor::FromDLPack(at::toDLPack(otorch));
   tvm::ffi::Tuple<int32_t, int32_t, int32_t> grid{(numel + 1023) / 1024, 1, 1};
-  size_t numWarps = 4, numStages = 3;
+  // TODO: check the performance loss after enabling `Optional`
+  tvm::ffi::Optional<int32_t> numWarps = std::nullopt, numStages = std::nullopt;
   DLDevice device = x.device();
   void *stream = TVMFFIEnvGetStream(device.device_type, device.device_id);
   ADD_KERNEL_STUB(grid, stream, numWarps, numStages, x, y, output, numel, 1024);
