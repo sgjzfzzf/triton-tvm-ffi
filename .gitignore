@@ -11,6 +11,7 @@ wheels/
 
 .vscode/
 
+.cache
 .clangd
 .python-version
 uv.lock
