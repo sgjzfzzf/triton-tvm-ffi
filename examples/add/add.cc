@@ -1,3 +1,4 @@
+#include "tvm/ffi/function.h"
 #include <ATen/DLConvertor.h>
 #include <ATen/dlpack.h>
 #include <tvm/ffi/extra/cuda/cubin_launcher.h>
@@ -15,10 +16,14 @@
 tvm::ffi::Tensor Add(tvm::ffi::Tensor x, tvm::ffi::Tensor y) {
   at::Tensor xtorch = at::fromDLPack(x.ToDLPack());
   at::Tensor otorch = at::empty_like(xtorch);
-  int64_t numel = otorch.numel();
+  int32_t numel = otorch.numel();
   tvm::ffi::Tensor output = tvm::ffi::Tensor::FromDLPack(at::toDLPack(otorch));
-  tvm::ffi::Tuple<int32_t, int32_t, int32_t> grid{(numel + 1023) / 1024, 1, 1};
-  // TODO: check the performance loss after enabling `Optional`
+  tvm::ffi::Function grid = tvm::ffi::Function::FromTyped(
+      [numel](const tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> &meta)
+          -> tvm::ffi::Tuple<int32_t, int32_t, int32_t> {
+        const int32_t BLOCK_SIZE = meta["BLOCK_SIZE"].cast<int32_t>();
+        return tvm::ffi::Tuple((numel + BLOCK_SIZE - 1) / BLOCK_SIZE, 1, 1);
+      });
   tvm::ffi::Optional<int32_t> numWarps = std::nullopt, numStages = std::nullopt;
   DLDevice device = x.device();
   void *stream = TVMFFIEnvGetStream(device.device_type, device.device_id);

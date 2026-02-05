@@ -33,8 +33,9 @@ def add_triton(x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
     assert x.device == DEVICE and y.device == DEVICE and output.device == DEVICE
     n_elements: int = output.numel()
     BLOCK_SIZE: int = 1024
-    grid = (triton.cdiv(n_elements, BLOCK_SIZE), 1, 1)
-    add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE)
+    add_kernel[lambda meta: (triton.cdiv(n_elements, meta["BLOCK_SIZE"]), 1, 1)](
+        x, y, output, n_elements, BLOCK_SIZE
+    )
     return output
 
 
