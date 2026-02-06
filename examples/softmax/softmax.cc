@@ -4,9 +4,7 @@
 #include <tvm/ffi/tvm_ffi.h>
 
 #ifndef SOFTMAX_KERNEL_STUB
-#define SOFTMAX_KERNEL_STUB(grid, stream, numWarps, numStages, output, input,  \
-                            inputStride, outputStride, nRows, nCols,           \
-                            BLOCK_SIZE)
+#define SOFTMAX_KERNEL_STUB(grid, stream, numWarps, numStages, args, kwargs)
 #endif
 
 #ifndef SOFTMAX_NAME
@@ -23,9 +21,12 @@ tvm::ffi::Tensor Softmax(tvm::ffi::Tensor x) {
   tvm::ffi::Tensor y = tvm::ffi::Tensor::FromDLPack(at::toDLPack(ytorch));
   tvm::ffi::Tuple<int32_t, int32_t, int32_t> grid{nRows / 1024, 1, 1};
   DLDevice device = x.device();
-  void *stream = TVMFFIEnvGetStream(device.device_type, device.device_id);
-  SOFTMAX_KERNEL_STUB(grid, stream, numWarps, numStages, y, x, xStride, yStride,
-                      nRows, nCols, BLOCK_SIZE);
+  void* stream = 
+      TVMFFIEnvGetStream(device.device_type, device.device_id);
+  tvm::ffi::Array<tvm::ffi::Any> args = {y,     x,     xStride,   yStride,
+                                         nRows, nCols, BLOCK_SIZE};
+  tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> kwargs = {};
+  SOFTMAX_KERNEL_STUB(grid, stream, numWarps, numStages, args, kwargs);
   return y;
 }
 

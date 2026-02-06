@@ -6,19 +6,21 @@
 #include <tvm/ffi/tvm_ffi.h>
 
 template <typename T>
-inline tvm::ffi::dim3
+inline tvm::ffi::Tuple<int32_t, int32_t, int32_t>
 MakeGridDim(const T &grid,
             const tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> &meta);
 
 template <>
-inline tvm::ffi::dim3 MakeGridDim<tvm::ffi::Tuple<int32_t, int32_t, int32_t>>(
+inline tvm::ffi::Tuple<int32_t, int32_t, int32_t>
+MakeGridDim<tvm::ffi::Tuple<int32_t, int32_t, int32_t>>(
     const tvm::ffi::Tuple<int32_t, int32_t, int32_t> &grid,
     const tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> &) {
-  return tvm::ffi::dim3(grid.get<0>(), grid.get<1>(), grid.get<2>());
+  return grid;
 }
 
 template <>
-inline tvm::ffi::dim3 MakeGridDim<tvm::ffi::Function>(
+inline tvm::ffi::Tuple<int32_t, int32_t, int32_t>
+MakeGridDim<tvm::ffi::Function>(
     const tvm::ffi::Function &grid,
     const tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> &meta) {
   tvm::ffi::Tuple<int32_t, int32_t, int32_t> tuple =
