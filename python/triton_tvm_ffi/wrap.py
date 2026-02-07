@@ -8,6 +8,7 @@ import torch.utils.cpp_extension
 import tvm_ffi
 
 from .jit import TVMFFIJITFunction
+from .utils import include_paths
 
 
 class TVMFFIWrapperFunction(object):
@@ -103,7 +104,7 @@ def wrap(
             extra_cflags,
             extra_cuda_cflags,
             extra_ldflags,
-            extra_include_paths,
+            include_paths() + (extra_include_paths or []),
         )
 
     return decorate

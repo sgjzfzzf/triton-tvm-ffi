@@ -3,8 +3,7 @@
 #include <optional>
 #include <tvm/ffi/extra/cuda/cubin_launcher.h>
 #include <tvm/ffi/function.h>
-
-{% include "grid.h" %}
+#include "triton_tvm_ffi/grid.h"
 
 #define {{ name | upper }}_NAME "{{ uniquename }}"
 {% for fn in fns %}

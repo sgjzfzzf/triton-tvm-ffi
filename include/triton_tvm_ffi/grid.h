@@ -1,5 +1,5 @@
-#ifndef TRITON_TVM_FFI_GRID_H
-#define TRITON_TVM_FFI_GRID_H
+#ifndef TRITON_TVM_FFI_GRID_H_
+#define TRITON_TVM_FFI_GRID_H_
 
 #include <cstdint>
 #include <tvm/ffi/extra/cuda/base.h>

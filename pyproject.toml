@@ -1,7 +1,7 @@
 [project]
 name = "triton-tvm-ffi"
 version = "0.1.0"
-description = "Add your description here"
+description = "A Python package for the FFI bindings of Triton TVM."
 readme = "README.md"
 dependencies = [
     "apache-tvm-ffi",
@@ -9,8 +9,8 @@ dependencies = [
 ]
 
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["scikit-build-core"]
+build-backend = "scikit_build_core.build"
 
 [tool.setuptools]
 packages = ["triton_tvm_ffi"]
