@@ -41,8 +41,6 @@ class TVMFFIJITFunction(object):
                 Callable[[Dict[str, Any]], Tuple[int, int, int]], Tuple[int, int, int]
             ],
             _: int,
-            num_warps: Optional[int],
-            num_stages: Optional[int],
             args: Sequence[Any],
             kwargs: Mapping[str, Any],
         ):
@@ -50,10 +48,6 @@ class TVMFFIJITFunction(object):
             kwargs: Dict[str, Any] = {
                 k: v for k, v in zip(self.signature, args) if v is not None
             } | {k: self.canonicalize(v) for k, v in kwargs.items()}
-            if num_warps is not None:
-                kwargs["num_warps"] = num_warps
-            if num_stages is not None:
-                kwargs["num_stages"] = num_stages
             kernel: CompiledKernel = self.fn[grid](*args, **kwargs)
             self.num_warps, _, self.shmem = kernel.packed_metadata
             self.ctypes = [type_canonicalize(v) for v in kernel.src.signature.values()]

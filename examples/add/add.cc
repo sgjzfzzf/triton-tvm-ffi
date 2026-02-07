@@ -5,7 +5,7 @@
 #include <tvm/ffi/tvm_ffi.h>
 
 #ifndef ADD_KERNEL_STUB
-#define ADD_KERNEL_STUB(grid, stream, numWarps, numStages, args, kwargs)
+#define ADD_KERNEL_STUB(grid, stream, args, kwargs)
 #endif
 
 #ifndef ADD_NAME
@@ -23,12 +23,11 @@ tvm::ffi::Tensor Add(tvm::ffi::Tensor x, tvm::ffi::Tensor y) {
         const int32_t BLOCK_SIZE = meta["BLOCK_SIZE"].cast<int32_t>();
         return tvm::ffi::Tuple((numel + BLOCK_SIZE - 1) / BLOCK_SIZE, 1, 1);
       });
-  tvm::ffi::Optional<int32_t> numWarps = std::nullopt, numStages = std::nullopt;
   DLDevice device = x.device();
   void *stream = TVMFFIEnvGetStream(device.device_type, device.device_id);
   tvm::ffi::Array<tvm::ffi::Any> args = {x, y, output, numel, 1024};
   tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> kwargs = {};
-  ADD_KERNEL_STUB(grid, stream, numWarps, numStages, args, kwargs);
+  ADD_KERNEL_STUB(grid, stream, args, kwargs);
   return output;
 }
 

@@ -4,7 +4,7 @@
 #include <tvm/ffi/tvm_ffi.h>
 
 #ifndef MATMUL_KERNEL_STUB
-#define MATMUL_KERNEL_STUB(grid, stream, numWarps, numStages, args, kwargs)
+#define MATMUL_KERNEL_STUB(grid, stream, args, kwargs)
 #endif
 
 #ifndef MATMUL_NAME
@@ -27,7 +27,6 @@ tvm::ffi::Tensor Matmul(tvm::ffi::Tensor a, tvm::ffi::Tensor b,
                 ((N + BLOCK_SIZE_N - 1) / BLOCK_SIZE_N),
             1, 1};
       });
-  tvm::ffi::Optional<int32_t> numWarps = std::nullopt, numStages = std::nullopt;
   DLDevice device = a.device();
   void *stream = TVMFFIEnvGetStream(device.device_type, device.device_id);
   tvm::ffi::Tensor c = tvm::ffi::Tensor::FromDLPack(at::toDLPack(ctorch));
@@ -46,7 +45,7 @@ tvm::ffi::Tensor Matmul(tvm::ffi::Tensor a, tvm::ffi::Tensor b,
   tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> kwargs = {
       {"ACTIVATION", activation},
   };
-  MATMUL_KERNEL_STUB(grid, stream, numWarps, numStages, args, kwargs);
+  MATMUL_KERNEL_STUB(grid, stream, args, kwargs);
   return c;
 }
 

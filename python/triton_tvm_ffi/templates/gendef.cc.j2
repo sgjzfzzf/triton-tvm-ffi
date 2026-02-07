@@ -35,7 +35,7 @@ static CUfunction __Get{{ fn.fnname }}Kernel() {
     return *function;
 }
 
-#define {{ fn.fnname | upper }}_STUB(__grid, __stream, __numWarps, __numStages, __args, __kwargs) do { \
+#define {{ fn.fnname | upper }}_STUB(__grid, __stream, __args, __kwargs) do { \
 const char *__signature[] = { "{{ fn.signature | join("\", \"") }}" }; \
 tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> __meta = { \
 {% if fn.best_config != none %}
