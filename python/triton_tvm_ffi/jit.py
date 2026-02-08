@@ -40,7 +40,8 @@ class TVMFFIJITFunction(object):
             grid: Union[
                 Callable[[Dict[str, Any]], Tuple[int, int, int]], Tuple[int, int, int]
             ],
-            _: int,
+            _device: int,
+            _stream: int,
             args: Sequence[Any],
             kwargs: Mapping[str, Any],
         ):

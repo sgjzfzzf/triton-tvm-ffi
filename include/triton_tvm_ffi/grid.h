@@ -2,8 +2,9 @@
 #define TRITON_TVM_FFI_GRID_H_
 
 #include <cstdint>
-#include <tvm/ffi/extra/cuda/base.h>
 #include <tvm/ffi/tvm_ffi.h>
+
+namespace triton_tvm_ffi {
 
 template <typename T>
 inline tvm::ffi::Tuple<int32_t, int32_t, int32_t>
@@ -27,5 +28,7 @@ MakeGridDim<tvm::ffi::Function>(
       grid(meta).cast<tvm::ffi::Tuple<int32_t, int32_t, int32_t>>();
   return MakeGridDim(tuple, meta);
 }
+
+} // namespace triton_tvm_ffi
 
 #endif

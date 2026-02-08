@@ -4,7 +4,7 @@
 #include <tvm/ffi/tvm_ffi.h>
 
 #ifndef MATMUL_KERNEL_STUB
-#define MATMUL_KERNEL_STUB(grid, stream, args, kwargs)
+#define MATMUL_KERNEL_STUB(grid, device, stream, args, kwargs)
 #endif
 
 #ifndef MATMUL_NAME
@@ -45,7 +45,7 @@ tvm::ffi::Tensor Matmul(tvm::ffi::Tensor a, tvm::ffi::Tensor b,
   tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> kwargs = {
       {"ACTIVATION", activation},
   };
-  MATMUL_KERNEL_STUB(grid, stream, args, kwargs);
+  MATMUL_KERNEL_STUB(grid, device.device_id, stream, args, kwargs);
   return c;
 }
 

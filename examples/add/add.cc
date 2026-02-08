@@ -1,11 +1,11 @@
-#include "tvm/ffi/function.h"
 #include <ATen/DLConvertor.h>
 #include <ATen/dlpack.h>
 #include <tvm/ffi/extra/cuda/cubin_launcher.h>
+#include <tvm/ffi/function.h>
 #include <tvm/ffi/tvm_ffi.h>
 
 #ifndef ADD_KERNEL_STUB
-#define ADD_KERNEL_STUB(grid, stream, args, kwargs)
+#define ADD_KERNEL_STUB(grid, device, stream, args, kwargs)
 #endif
 
 #ifndef ADD_NAME
@@ -27,7 +27,7 @@ tvm::ffi::Tensor Add(tvm::ffi::Tensor x, tvm::ffi::Tensor y) {
   void *stream = TVMFFIEnvGetStream(device.device_type, device.device_id);
   tvm::ffi::Array<tvm::ffi::Any> args = {x, y, output, numel, 1024};
   tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> kwargs = {};
-  ADD_KERNEL_STUB(grid, stream, args, kwargs);
+  ADD_KERNEL_STUB(grid, device.device_id, stream, args, kwargs);
   return output;
 }
 

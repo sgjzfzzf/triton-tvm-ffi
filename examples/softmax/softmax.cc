@@ -4,7 +4,7 @@
 #include <tvm/ffi/tvm_ffi.h>
 
 #ifndef SOFTMAX_KERNEL_STUB
-#define SOFTMAX_KERNEL_STUB(grid, stream, args, kwargs)
+#define SOFTMAX_KERNEL_STUB(grid, device, stream, args, kwargs)
 #endif
 
 #ifndef SOFTMAX_NAME
@@ -24,7 +24,7 @@ tvm::ffi::Tensor Softmax(tvm::ffi::Tensor x) {
   tvm::ffi::Array<tvm::ffi::Any> args = {y,     x,     xStride,   yStride,
                                          nRows, nCols, BLOCK_SIZE};
   tvm::ffi::Map<tvm::ffi::String, tvm::ffi::Any> kwargs = {};
-  SOFTMAX_KERNEL_STUB(grid, stream, args, kwargs);
+  SOFTMAX_KERNEL_STUB(grid, device.device_id, stream, args, kwargs);
   return y;
 }
 
