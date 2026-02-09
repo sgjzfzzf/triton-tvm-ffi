@@ -303,5 +303,5 @@ if __name__ == "__main__":
         matmul(a, b, "")
     cp3 = time.perf_counter_ns()
     print(
-        f"PyTorch matmul: {(cp1 - cp0) / round * 1e-6:.3f} ms\nTriton matmul: {(cp2 - cp1) / round * 1e-6:.3f} ms\nTVM FFI matmul: {(cp3 - cp2) / round * 1e-6:.3f} ms"
+        f"PyTorch: {(cp1 - cp0) / round * 1e-6:.3f} ms\nTriton: {(cp2 - cp1) / round * 1e-6:.3f} ms\nTVM FFI: {(cp3 - cp2) / round * 1e-6:.3f} ms"
     )
