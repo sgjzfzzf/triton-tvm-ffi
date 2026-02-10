@@ -47,8 +47,8 @@ class TVMFFIJITFunction(object):
         ):
             args: Iterator[Any] = map(self.canonicalize, args)
             kwargs: Dict[str, Any] = {
-                k: v for k, v in zip(self.signature, args) if v is not None
-            } | {k: self.canonicalize(v) for k, v in kwargs.items()}
+                k: self.canonicalize(v) for k, v in kwargs.items()
+            }
             kernel: CompiledKernel = self.fn[grid](*args, **kwargs)
             self.num_warps, _, self.shmem = kernel.packed_metadata
             self.ctypes = [type_canonicalize(v) for v in kernel.src.signature.values()]

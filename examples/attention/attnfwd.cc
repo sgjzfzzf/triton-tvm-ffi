@@ -1,3 +1,5 @@
+#include "ATen/core/ATen_fwd.h"
+#include "ATen/ops/empty.h"
 #include "tvm/ffi/container/tensor.h"
 #include <ATen/DLConvertor.h>
 #include <ATen/dlpack.h>
